@@ -1,0 +1,2 @@
+
+sam.do_friendstuff
