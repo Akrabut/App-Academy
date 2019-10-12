@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  background: transparent;
+  background-size: contain;
+}
+
+body {
+  line-height: 1.5;
+}
+
+li {
+  list-style: none;
+}
+
+img {
+
+}

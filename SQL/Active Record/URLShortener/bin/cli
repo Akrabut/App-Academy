@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+
+class CLI
+  def handle_non_registered
+    puts 'Registering you...'
+    @user = User.create!(email: @user_email)
+    puts 'Registered!'
+  end
+
+  def choose_action
+    loop do
+      puts 'Enter visit to visit a shortened URL or create to create a shortened URL'
+      input = gets.chomp.downcase
+      return input if %w[visit create].include?(input)
+      puts 'Invalid input'
+    end
+  end
+
+  def check_for_spamming(url)
+    raise 'You cant create more than five URLs in a minute you fucking spammer!' unless url.no_spamming(@user.id)
+  end
+
+  def create
+    puts 'Enter URL to shorten'
+    long_url = gets.chomp
+    url = ShortenedUrl.new
+    url.long_url = long_url
+    check_for_spamming(url)
+    Visit.record_visit!(@user, url)
+    puts "shortened URL - #{ShortenedUrl.find_by(long_url: long_url).short_url}"
+  end
+
+  def visit
+    puts 'Enter URL to enter'
+    long_url = gets.chomp
+    url = ShortenedUrl.new
+    url.long_url = long_url
+    url_to_visit = ShortenedUrl.find_by(long_url: long_url)
+    raise 'URL not in the database!' unless url_to_visit
+
+    Visit.record_visit!(@user, url)
+    Launchy.open(long_url)
+  end
+
+  def run
+    puts 'Hello, enter your email to continue'
+    @user_email = gets.chomp
+    @user = User.find_by email: @user_email
+    handle_non_registered unless @user
+    input = choose_action
+    create if input == 'create'
+    visit if input == 'visit'
+  end
+end
+
+CLI.new.run
