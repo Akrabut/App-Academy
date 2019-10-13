@@ -1,0 +1,9 @@
+<h1> All the cats!</h1>
+
+<ul>
+  <% @cats.each do |cat| %>
+    <% url = "/cats/#{cat.id}" %>
+    <a href=<%= url %>><%= cat.name %></a>
+    <br>
+  <% end %>
+</ul>

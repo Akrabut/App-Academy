@@ -1,0 +1,13 @@
+
+
+<h1>Hello! sign <%=word%> for this cat picture website!</h1>
+<form action=<%= url %> method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <label id="username">User name:</label>
+  <input type=text name="<%=name%>[username]" value="<%= @username %>" required>
+  <br>
+  <label id="password">Password:</label>
+  <input type=password name="<%=name%>[password]" value="<%= @password %>" required>
+  <br>
+  <input type="submit" value="Sign <%=word%>">
+</form>
